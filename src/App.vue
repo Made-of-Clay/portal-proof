@@ -6,7 +6,7 @@ import { useRouter } from "vue-router";
 export default defineComponent({
   setup() {
     const router = useRouter();
-    
+
     const navigation = computed(() => router.options.routes.map(route => ({
       text: route.meta?.displayName,
       to: route.path,
@@ -32,7 +32,6 @@ export default defineComponent({
     :to="nav.to"
     class="appLink"
   >
-  {{log(nav)}}
     {{nav.text}}
   </router-link>
   <hr>
