@@ -1,12 +1,42 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts">
+import { computed } from "@vue/reactivity";
+import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
+
+export default defineComponent({
+  setup() {
+    const router = useRouter();
+    
+    const navigation = computed(() => router.options.routes.map(route => ({
+      text: route.meta?.displayName,
+      to: route.path,
+    })));
+      // router.options.routes[0].component?.name
+    // })
+
+    return {
+      navigation,
+      router,
+      log: console.log,
+    };
+  }
+});
 </script>
 
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <br>
+  <router-link
+    v-for="nav in navigation"
+    :key="nav.to"
+    :to="nav.to"
+    class="appLink"
+  >
+  {{log(nav)}}
+    {{nav.text}}
+  </router-link>
+  <hr>
+  <router-view />
 </template>
 
 <style>
@@ -17,5 +47,8 @@ import HelloWorld from './components/HelloWorld.vue'
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.appLink {
+  display: block;
 }
 </style>
